@@ -261,7 +261,12 @@ function useWeather() {
     fetch("https://api.open-meteo.com/v1/forecast?latitude=51.5074&longitude=-0.1278&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=Europe/London&forecast_days=7")
       .then(r=>r.json())
       .then(d=>setWx({days:DAYS.map((day,i)=>({day,code:d.daily.weathercode[i],max:Math.round(d.daily.temperature_2m_max[i]),min:Math.round(d.daily.temperature_2m_min[i])}))}))
-      .catch(()=>setWx({days:DAYS.map((day,i)=>({day,code:[63,61,3,2,80,1,2][i],max:[9,8,11,12,10,13,14][i],min:[4,3,5,6,4,7,8][i]}))})});
+      .catch(()=>{
+        const codes=[63,61,3,2,80,1,2];
+        const maxes=[9,8,11,12,10,13,14];
+        const mins=[4,3,5,6,4,7,8];
+        setWx({days:DAYS.map((day,i)=>({day,code:codes[i],max:maxes[i],min:mins[i]}))});
+      });
   },[]);
   return wx;
 }
